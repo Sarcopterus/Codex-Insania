@@ -13,11 +13,6 @@ Shared state:
 local group = {}
 local handlers = {}
 
-]]
-
-local group = {}
-
-
 group.leader = nil
 
 function group.follow(name)
@@ -26,12 +21,16 @@ function group.follow(name)
 end
 
 function group.register()
-  handlers.disband = registerAnonymousEventHandler('group.disband', 'AchaeaSystem.modules.group.stop')
+  handlers.disband = AchaeaSystem.registerEventHandler('group.disband', 'AchaeaSystem.modules.group.stop')
 end
 
 function group.unregister()
-  if handlers.disband then killAnonymousEventHandler(handlers.disband) end
+  if handlers.disband then AchaeaSystem.unregisterEventHandler(handlers.disband) end
   handlers.disband = nil
+end
+
+function group.init()
+  group.register()
 end
 
 function group.stop()

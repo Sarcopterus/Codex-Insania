@@ -5,7 +5,43 @@ Designed for full modularity using Mudlet packages.
 ]]
 
 AchaeaSystem = AchaeaSystem or {}
+-- Table storing loaded modules. Each module is an independent mpackage
+-- and should register its own event handlers when loaded.
 AchaeaSystem.modules = {}
+
+--[[
+Event utilities
+---------------
+`registerEventHandler(event, handler)` wraps Mudlet's anonymous event
+registration. `unregisterEventHandler(id)` removes the handler.  The
+`publish`/`subscribe` helpers implement a lightweight pub/sub mechanism so
+modules can communicate without direct references.
+]]
+
+function AchaeaSystem.registerEventHandler(event, handler)
+  return registerAnonymousEventHandler(event, handler)
+end
+
+function AchaeaSystem.unregisterEventHandler(id)
+  if id then killAnonymousEventHandler(id) end
+end
+
+-- Backwards compatibility aliases
+AchaeaSystem.on = AchaeaSystem.registerEventHandler
+AchaeaSystem.off = AchaeaSystem.unregisterEventHandler
+
+-- Pub/Sub helpers using a common event prefix
+function AchaeaSystem.publish(name, ...)
+  raiseEvent("AchaeaSystem." .. name, ...)
+end
+
+function AchaeaSystem.subscribe(name, handler)
+  return AchaeaSystem.registerEventHandler("AchaeaSystem." .. name, handler)
+end
+
+function AchaeaSystem.unsubscribe(id)
+  AchaeaSystem.unregisterEventHandler(id)
+end
 
 -- Utility to load modules dynamically
 local function loadModule(path)
@@ -36,6 +72,17 @@ AchaeaSystem.modules.pvp.unnamable = loadModule("AchaeaSystem/modules/pvp/unnama
 -- GMCP initialisation
 function AchaeaSystem.init()
   sendGMCP("Core.Supports.Add [Char 1,Char.Defences 1,Char.Afflictions 1,IRE.Rift 1]")
+  for _, mod in pairs(AchaeaSystem.modules) do
+    if type(mod) == 'table' and type(mod.init) == 'function' then
+      mod.init()
+    elseif type(mod) == 'table' then
+      -- handle submodules (e.g., pvp)
+      for _, sub in pairs(mod) do
+        if type(sub) == 'table' and type(sub.init) == 'function' then
+          sub.init()
+        end
+      end
+    end
   if AchaeaSystem.modules.gui and AchaeaSystem.modules.gui.init then
     AchaeaSystem.modules.gui.init()
   end
@@ -43,13 +90,7 @@ end
 
 tempTimer(0, AchaeaSystem.init)
 
--- Example GMCP handler registration
-registerAnonymousEventHandler("gmcp.Char", "AchaeaSystem.modules.curing.handleChar")
-registerAnonymousEventHandler("gmcp.Char.Afflictions", "AchaeaSystem.modules.curing.handleAffs")
-registerAnonymousEventHandler("gmcp.Char.Defences", "AchaeaSystem.modules.curing.handleDefences")
-registerAnonymousEventHandler("gmcp.IRE.Rift", "AchaeaSystem.modules.curing.handleRift")
-
--- Modules can register additional handlers inside their own files. This ensures
+-- Modules register their own handlers inside their files. This ensures
 -- clean separation and the ability to unload modules without side effects.
 
 return AchaeaSystem

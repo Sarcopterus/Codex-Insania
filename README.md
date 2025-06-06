@@ -1,4 +1,4 @@
-# Codex-Insania
+System made for Achaea
 
 Modular Mudlet system for **Achaea**. Includes automatic curing, PvE/PvP helpers and optional GUI.  Optimised for the *Unnamable* SnB specialization.
 
@@ -20,10 +20,14 @@ The system listens to GMCP events to keep your curing and defences updated. Modu
 - **pve** – automated bashing using Crowdmap.
 - **pvp** – utilities for limb counting and Unnamable class logic.
 - **group** – group coordination tools.
-- **shrine** – simple essence donation tracking.
+- **shrine** – essence donation and corpse offering automation.
 - **gui** – Geyser front-end.
 
 Each module exposes a `register()` method to attach its event handlers and an `unregister()` method to clean up.
+Modules also define an optional `init()` which the core calls during startup to register default handlers.  You can reload a module at any time by running its `unregister()` and `register()` functions.
+
+### Custom Events
+Modules communicate through a small pub/sub API. Use `AchaeaSystem.publish("event", ...)` to raise an event and `AchaeaSystem.subscribe("event", handler)` to listen. Remove a subscription with `AchaeaSystem.unsubscribe(id)`. Raw Mudlet events can still be handled using `AchaeaSystem.registerEventHandler(event, handler)`.
 
 ### Loading Modules
 To enable a feature, call its `register()` function. When you no longer need the
@@ -49,6 +53,3 @@ AchaeaSystem.modules.gui.init()
 
 ### Events and Aliases
 See each module header for the events it registers. Aliases such as `crowdmap goto <area>` or `extinction <target>` rely on the standard Achaea aliases provided by the Mudlet client.
-=======
-The system listens to GMCP events to keep your curing and defences updated.  Modules can be extended by adding new files under `AchaeaSystem/modules`.
-

@@ -14,17 +14,20 @@ Shared state:
 ]]
 
 local pve = {}
+local handlers = {}
 
 pve.target = nil
 
 function pve.start(target)
   pve.target = target or ""
   send("queue add eqbal bash " .. pve.target)
+  AchaeaSystem.publish('pve.start', pve.target)
 end
 
 function pve.stop()
   pve.target = nil
   send("queue clear eqbal")
+  AchaeaSystem.publish('pve.stop')
 end
 
 function pve.gotoArea(area)
@@ -46,12 +49,16 @@ function pve.handleVitals()
 end
 
 function pve.register()
-  handlers.vitals = registerAnonymousEventHandler('gmcp.Char.Vitals', 'AchaeaSystem.modules.pve.handleVitals')
+  handlers.vitals = AchaeaSystem.registerEventHandler('gmcp.Char.Vitals', 'AchaeaSystem.modules.pve.handleVitals')
 end
 
 function pve.unregister()
-  if handlers.vitals then killAnonymousEventHandler(handlers.vitals) end
+  if handlers.vitals then AchaeaSystem.unregisterEventHandler(handlers.vitals) end
   handlers.vitals = nil
+end
+
+function pve.init()
+  pve.register()
 end
 
 return pve

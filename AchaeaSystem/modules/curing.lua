@@ -3,7 +3,6 @@ Curing module
 Handles afflictions and defences using both server-side and client-side logic.
 Compatible with Legacy and SVOF conventions.
 
-
 Usage:
   local curing = require('AchaeaSystem.modules.curing')
   curing.register()
@@ -16,7 +15,7 @@ Shared state:
 ]]
 
 local curing = {}
-
+local handlers = {}
 
 curing.afflictions = {}
 curing.defences = {}
@@ -47,15 +46,19 @@ function curing.cure(aff)
 end
 
 function curing.register()
-  handlers.char = registerAnonymousEventHandler("gmcp.Char", "AchaeaSystem.modules.curing.handleChar")
-  handlers.affs = registerAnonymousEventHandler("gmcp.Char.Afflictions", "AchaeaSystem.modules.curing.handleAffs")
-  handlers.defs = registerAnonymousEventHandler("gmcp.Char.Defences", "AchaeaSystem.modules.curing.handleDefences")
-  handlers.rift = registerAnonymousEventHandler("gmcp.IRE.Rift", "AchaeaSystem.modules.curing.handleRift")
+  handlers.char = AchaeaSystem.registerEventHandler("gmcp.Char", "AchaeaSystem.modules.curing.handleChar")
+  handlers.affs = AchaeaSystem.registerEventHandler("gmcp.Char.Afflictions", "AchaeaSystem.modules.curing.handleAffs")
+  handlers.defs = AchaeaSystem.registerEventHandler("gmcp.Char.Defences", "AchaeaSystem.modules.curing.handleDefences")
+  handlers.rift = AchaeaSystem.registerEventHandler("gmcp.IRE.Rift", "AchaeaSystem.modules.curing.handleRift")
 end
 
 function curing.unregister()
-  for _,h in pairs(handlers) do if h then killAnonymousEventHandler(h) end end
+  for _,h in pairs(handlers) do AchaeaSystem.unregisterEventHandler(h) end
   handlers = {}
+end
+
+function curing.init()
+  curing.register()
 end
 
 return curing

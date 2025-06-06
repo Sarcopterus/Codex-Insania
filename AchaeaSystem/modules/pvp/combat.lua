@@ -11,6 +11,7 @@ Shared state:
 ]]
 
 local combat = {}
+local handlers = {}
 
 combat.limbCounter = {}
 
@@ -24,6 +25,20 @@ end
 
 function combat.getLimbCount(limb)
   return combat.limbCounter[limb] or 0
+end
+
+function combat.register()
+  -- register PvP event handlers here as needed
+end
+
+function combat.unregister()
+  -- unregister handlers when unloading
+  for _, id in pairs(handlers) do AchaeaSystem.unregisterEventHandler(id) end
+  handlers = {}
+end
+
+function combat.init()
+  combat.register()
 end
 
 return combat

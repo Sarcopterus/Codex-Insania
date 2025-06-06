@@ -17,15 +17,12 @@ Shared state:
 
 local unnamable = {}
 local handlers = {}
-]]
-
-local unnamable = {}
 
 unnamable.horror = 0
 
 function unnamable.addHorror()
   unnamable.horror = unnamable.horror + 1
-  raiseEvent('unnamable.horror', unnamable.horror)
+  AchaeaSystem.publish('horror_gain', unnamable.horror)
 end
 
 function unnamable.handleHorrorEvent()
@@ -45,11 +42,16 @@ function unnamable.catastrophe(target)
 end
 
 function unnamable.register()
-  handlers.horror = registerAnonymousEventHandler('unnamable.horror_gain', 'AchaeaSystem.modules.pvp.unnamable.handleHorrorEvent')
+  handlers.horror = AchaeaSystem.subscribe('horror_gain', 'AchaeaSystem.modules.pvp.unnamable.handleHorrorEvent')
 end
 
 function unnamable.unregister()
-  if handlers.horror then killAnonymousEventHandler(handlers.horror) end
+  if handlers.horror then AchaeaSystem.unsubscribe(handlers.horror) end
   handlers.horror = nil
 end
+
+function unnamable.init()
+  unnamable.register()
+end
+
 return unnamable
