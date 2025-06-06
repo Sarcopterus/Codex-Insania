@@ -6,6 +6,8 @@ Usage:
   grp.follow('Leader')
   grp.stop()
 
+Events:
+  - custom "group.disband" to trigger group.stop
 Shared state:
   group.leader - current leader being followed
 ]]

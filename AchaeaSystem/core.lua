@@ -83,8 +83,6 @@ function AchaeaSystem.init()
         end
       end
     end
-  if AchaeaSystem.modules.gui and AchaeaSystem.modules.gui.init then
-    AchaeaSystem.modules.gui.init()
   end
 end
 

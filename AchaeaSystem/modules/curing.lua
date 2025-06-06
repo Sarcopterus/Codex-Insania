@@ -9,6 +9,12 @@ Usage:
   curing.cure('paresis')
   curing.unregister()
 
+Events:
+  - gmcp.Char -> curing.handleChar
+  - gmcp.Char.Afflictions -> curing.handleAffs
+  - gmcp.Char.Defences -> curing.handleDefences
+  - gmcp.IRE.Rift -> curing.handleRift
+
 Shared state:
   curing.afflictions - table of afflictions
   curing.defences - table of defences

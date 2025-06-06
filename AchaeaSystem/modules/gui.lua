@@ -6,6 +6,9 @@ Usage:
   local gui = require('AchaeaSystem.modules.gui')
   gui.init()
   gui.updateVitals(1000, 800)
+Events:
+  - gmcp.Char.Vitals -> gui.handleVitals
+  - shrine.essence via pub/sub -> gui.handleEssence
 ]]
 
 local gui = {}

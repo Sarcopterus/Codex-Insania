@@ -9,6 +9,9 @@ Usage:
   pve.gotoArea('Delos')
   pve.stop()
 
+Events:
+  - gmcp.Char.Vitals -> pve.handleVitals
+  - publishes "pve.start" and "pve.stop" when automation toggles
 Shared state:
   pve.target - current NPC target
 ]]

@@ -11,6 +11,7 @@ Usage:
 
 Events:
   - custom "horror gained" event for stack tracking
+  - publishes "horror_gain" when stacks increase
 Shared state:
   unnamable.horror - current stack count
 ]]

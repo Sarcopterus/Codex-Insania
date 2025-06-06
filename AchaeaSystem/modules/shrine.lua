@@ -32,7 +32,6 @@ function shrine.handleItems()
   if not list then return end
   if list.location == "room" then
     local present = false
-    shrine.shrinePresent = false
     for _, it in ipairs(list.items or {}) do
       if it.name and it.name:lower():find("shrine") then
         present = true

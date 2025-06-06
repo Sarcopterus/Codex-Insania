@@ -1,3 +1,4 @@
+# Codex-Insania
 System made for Achaea
 
 Modular Mudlet system for **Achaea**. Includes automatic curing, PvE/PvP helpers and optional GUI.  Optimised for the *Unnamable* SnB specialization.
@@ -27,7 +28,8 @@ Each module exposes a `register()` method to attach its event handlers and an `u
 Modules also define an optional `init()` which the core calls during startup to register default handlers.  You can reload a module at any time by running its `unregister()` and `register()` functions.
 
 ### Custom Events
-Modules communicate through a small pub/sub API. Use `AchaeaSystem.publish("event", ...)` to raise an event and `AchaeaSystem.subscribe("event", handler)` to listen. Remove a subscription with `AchaeaSystem.unsubscribe(id)`. Raw Mudlet events can still be handled using `AchaeaSystem.registerEventHandler(event, handler)`.
+Modules communicate through a small pub/sub API. Use `AchaeaSystem.publish("event", ...)` to raise an event and `AchaeaSystem.subscribe("event", handler)` to listen. Remove a subscription with `AchaeaSystem.unsubscribe(id)`.
+For normal Mudlet events you can register callbacks with `AchaeaSystem.registerEventHandler(event, handler)` which returns an id for later removal via `AchaeaSystem.unregisterEventHandler(id)`.
 
 ### Loading Modules
 To enable a feature, call its `register()` function. When you no longer need the

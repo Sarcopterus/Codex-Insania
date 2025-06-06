@@ -5,6 +5,8 @@ Usage:
   local combat = require('AchaeaSystem.modules.pvp.combat')
   combat.trackLimb('left arm')
   combat.resetCounters()
+Events:
+  - none by default; other modules may call trackLimb via triggers
 
 Shared state:
   combat.limbCounter - table counting damage per limb
