@@ -1,6 +1,16 @@
 --[[
 PvE module - automated bashing routines
 Includes basic crowdmap integration and battlerage usage.
+Compatible with Mudlet crowdmap package.
+
+Usage:
+  local pve = require('AchaeaSystem.modules.pve')
+  pve.start('goblin')
+  pve.gotoArea('Delos')
+  pve.stop()
+
+Shared state:
+  pve.target - current NPC target
 ]]
 
 local pve = {}
@@ -17,9 +27,31 @@ function pve.stop()
   send("queue clear eqbal")
 end
 
+function pve.gotoArea(area)
+  send("crowdmap goto " .. area)
+end
+
 -- simple battlerage usage
 function pve.useBattlerage()
   send("battlerage repeat on")
+end
+
+
+function pve.handleVitals()
+  local vitals = gmcp.Char.Vitals or {}
+  local hp = tonumber(vitals.hp) or 0
+  if hp <= 0 then
+    pve.stop()
+  end
+end
+
+function pve.register()
+  handlers.vitals = registerAnonymousEventHandler('gmcp.Char.Vitals', 'AchaeaSystem.modules.pve.handleVitals')
+end
+
+function pve.unregister()
+  if handlers.vitals then killAnonymousEventHandler(handlers.vitals) end
+  handlers.vitals = nil
 end
 
 return pve
