@@ -36,13 +36,22 @@ function pve.useBattlerage()
   send("battlerage repeat on")
 end
 
+
+function pve.handleVitals()
+  local vitals = gmcp.Char.Vitals or {}
+  local hp = tonumber(vitals.hp) or 0
+  if hp <= 0 then
+    pve.stop()
+  end
+end
+
 function pve.register()
-  handlers.death = registerAnonymousEventHandler('gmcp.Char.Vitals', 'AchaeaSystem.modules.pve.stop')
+  handlers.vitals = registerAnonymousEventHandler('gmcp.Char.Vitals', 'AchaeaSystem.modules.pve.handleVitals')
 end
 
 function pve.unregister()
-  if handlers.death then killAnonymousEventHandler(handlers.death) end
-  handlers.death = nil
+  if handlers.vitals then killAnonymousEventHandler(handlers.vitals) end
+  handlers.vitals = nil
 end
 
 return pve

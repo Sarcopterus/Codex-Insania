@@ -25,6 +25,19 @@ The system listens to GMCP events to keep your curing and defences updated. Modu
 
 Each module exposes a `register()` method to attach its event handlers and an `unregister()` method to clean up.
 
+### Loading Modules
+To enable a feature, call its `register()` function. When you no longer need the
+feature during a session, call `unregister()` to remove its triggers and handlers.
+
+```lua
+-- start the curing module
+local curing = AchaeaSystem.modules.curing
+curing.register()
+
+-- later, disable it
+curing.unregister()
+```
+
 ### Example
 ```lua
 -- load bashing and gui helpers

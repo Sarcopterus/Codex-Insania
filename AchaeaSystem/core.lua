@@ -35,7 +35,6 @@ AchaeaSystem.modules.pvp.unnamable = loadModule("AchaeaSystem/modules/pvp/unnama
 
 -- GMCP initialisation
 function AchaeaSystem.init()
-  installPackage = installPackage or function() end -- placeholder for installer
   sendGMCP("Core.Supports.Add [Char 1,Char.Defences 1,Char.Afflictions 1,IRE.Rift 1]")
   if AchaeaSystem.modules.gui and AchaeaSystem.modules.gui.init then
     AchaeaSystem.modules.gui.init()
