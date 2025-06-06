@@ -1,6 +1,6 @@
 --[[
 Shrine management module
-Provides simple helpers to track shrine influence and donate essence.
+Tracks shrine presence and corpse inventory, offering helpers to donate essence automatically.
 
 Usage:
   local shrine = require('AchaeaSystem.modules.shrine')
@@ -9,7 +9,9 @@ Usage:
   shrine.unregister()
 
 Events:
-  - gmcp.Char.Status to update shrine essence
+  - gmcp.Char.Status -> shrine.essence update
+  - gmcp.Char.Items.List -> shrine.presence and shrine.corpses updates
+  - publishes "shrine.offered" when corpses are donated
 Shared state:
   shrine.essence - current essence in inventory
 ]]
@@ -22,17 +24,23 @@ shrine.shrinePresent = false
 
 function shrine.handleStatus()
   shrine.essence = tonumber(gmcp.Char.Status.essence or 0)
+  AchaeaSystem.publish('shrine.essence', shrine.essence)
 end
 
 function shrine.handleItems()
   local list = gmcp.Char.Items.List
   if not list then return end
   if list.location == "room" then
+    local present = false
     shrine.shrinePresent = false
     for _, it in ipairs(list.items or {}) do
       if it.name and it.name:lower():find("shrine") then
-        shrine.shrinePresent = true
+        present = true
       end
+    end
+    if shrine.shrinePresent ~= present then
+      shrine.shrinePresent = present
+      AchaeaSystem.publish('shrine.presence', shrine.shrinePresent)
     end
   elseif list.location == "inv" then
     shrine.corpses = {}
@@ -41,6 +49,7 @@ function shrine.handleItems()
         table.insert(shrine.corpses, it.id or it.name)
       end
     end
+    AchaeaSystem.publish('shrine.corpses', shrine.corpses)
   end
 end
 
@@ -52,16 +61,17 @@ function shrine.offerCorpses()
   if shrine.shrinePresent and #shrine.corpses > 0 then
     send("offer corpses to shrine")
     cecho("<green>Offered corpses to shrine\n")
+    AchaeaSystem.publish('shrine.offered')
   end
 end
 
 function shrine.register()
-  handlers.status = AchaeaSystem.on('gmcp.Char.Status', 'AchaeaSystem.modules.shrine.handleStatus')
-  handlers.items = AchaeaSystem.on('gmcp.Char.Items.List', 'AchaeaSystem.modules.shrine.handleItems')
+  handlers.status = AchaeaSystem.registerEventHandler('gmcp.Char.Status', 'AchaeaSystem.modules.shrine.handleStatus')
+  handlers.items = AchaeaSystem.registerEventHandler('gmcp.Char.Items.List', 'AchaeaSystem.modules.shrine.handleItems')
 end
 
 function shrine.unregister()
-  for _,h in pairs(handlers) do AchaeaSystem.off(h) end
+  for _,h in pairs(handlers) do AchaeaSystem.unregisterEventHandler(h) end
   handlers = {}
 end
 

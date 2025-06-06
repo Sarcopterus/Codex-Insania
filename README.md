@@ -27,7 +27,7 @@ Each module exposes a `register()` method to attach its event handlers and an `u
 Modules also define an optional `init()` which the core calls during startup to register default handlers.  You can reload a module at any time by running its `unregister()` and `register()` functions.
 
 ### Custom Events
-Modules communicate using Mudlet's event system.  `AchaeaSystem.fireEvent(name, ...)` will raise an event, while `AchaeaSystem.on(name, handler)` registers a new anonymous handler.  Store the returned id and pass it to `AchaeaSystem.off(id)` to remove the handler.
+Modules communicate through a small pub/sub API. Use `AchaeaSystem.publish("event", ...)` to raise an event and `AchaeaSystem.subscribe("event", handler)` to listen. Remove a subscription with `AchaeaSystem.unsubscribe(id)`. Raw Mudlet events can still be handled using `AchaeaSystem.registerEventHandler(event, handler)`.
 
 ### Loading Modules
 To enable a feature, call its `register()` function. When you no longer need the

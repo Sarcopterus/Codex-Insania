@@ -9,17 +9,38 @@ AchaeaSystem = AchaeaSystem or {}
 -- and should register its own event handlers when loaded.
 AchaeaSystem.modules = {}
 
--- Event helper wrappers so modules can communicate without touching the core
-function AchaeaSystem.fireEvent(name, ...)
-  raiseEvent(name, ...)
+--[[
+Event utilities
+---------------
+`registerEventHandler(event, handler)` wraps Mudlet's anonymous event
+registration. `unregisterEventHandler(id)` removes the handler.  The
+`publish`/`subscribe` helpers implement a lightweight pub/sub mechanism so
+modules can communicate without direct references.
+]]
+
+function AchaeaSystem.registerEventHandler(event, handler)
+  return registerAnonymousEventHandler(event, handler)
 end
 
-function AchaeaSystem.on(name, handler)
-  return registerAnonymousEventHandler(name, handler)
-end
-
-function AchaeaSystem.off(id)
+function AchaeaSystem.unregisterEventHandler(id)
   if id then killAnonymousEventHandler(id) end
+end
+
+-- Backwards compatibility aliases
+AchaeaSystem.on = AchaeaSystem.registerEventHandler
+AchaeaSystem.off = AchaeaSystem.unregisterEventHandler
+
+-- Pub/Sub helpers using a common event prefix
+function AchaeaSystem.publish(name, ...)
+  raiseEvent("AchaeaSystem." .. name, ...)
+end
+
+function AchaeaSystem.subscribe(name, handler)
+  return AchaeaSystem.registerEventHandler("AchaeaSystem." .. name, handler)
+end
+
+function AchaeaSystem.unsubscribe(id)
+  AchaeaSystem.unregisterEventHandler(id)
 end
 
 -- Utility to load modules dynamically

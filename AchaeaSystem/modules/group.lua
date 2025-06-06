@@ -21,11 +21,11 @@ function group.follow(name)
 end
 
 function group.register()
-  handlers.disband = AchaeaSystem.on('group.disband', 'AchaeaSystem.modules.group.stop')
+  handlers.disband = AchaeaSystem.registerEventHandler('group.disband', 'AchaeaSystem.modules.group.stop')
 end
 
 function group.unregister()
-  if handlers.disband then AchaeaSystem.off(handlers.disband) end
+  if handlers.disband then AchaeaSystem.unregisterEventHandler(handlers.disband) end
   handlers.disband = nil
 end
 

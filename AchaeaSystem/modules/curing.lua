@@ -46,14 +46,14 @@ function curing.cure(aff)
 end
 
 function curing.register()
-  handlers.char = AchaeaSystem.on("gmcp.Char", "AchaeaSystem.modules.curing.handleChar")
-  handlers.affs = AchaeaSystem.on("gmcp.Char.Afflictions", "AchaeaSystem.modules.curing.handleAffs")
-  handlers.defs = AchaeaSystem.on("gmcp.Char.Defences", "AchaeaSystem.modules.curing.handleDefences")
-  handlers.rift = AchaeaSystem.on("gmcp.IRE.Rift", "AchaeaSystem.modules.curing.handleRift")
+  handlers.char = AchaeaSystem.registerEventHandler("gmcp.Char", "AchaeaSystem.modules.curing.handleChar")
+  handlers.affs = AchaeaSystem.registerEventHandler("gmcp.Char.Afflictions", "AchaeaSystem.modules.curing.handleAffs")
+  handlers.defs = AchaeaSystem.registerEventHandler("gmcp.Char.Defences", "AchaeaSystem.modules.curing.handleDefences")
+  handlers.rift = AchaeaSystem.registerEventHandler("gmcp.IRE.Rift", "AchaeaSystem.modules.curing.handleRift")
 end
 
 function curing.unregister()
-  for _,h in pairs(handlers) do AchaeaSystem.off(h) end
+  for _,h in pairs(handlers) do AchaeaSystem.unregisterEventHandler(h) end
   handlers = {}
 end
 
