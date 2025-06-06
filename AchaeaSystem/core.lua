@@ -5,8 +5,6 @@ Designed for full modularity using Mudlet packages.
 ]]
 
 AchaeaSystem = AchaeaSystem or {}
--- Table storing loaded modules. Each module is an independent mpackage
--- and should register its own event handlers when loaded.
 AchaeaSystem.modules = {}
 
 -- Utility to load modules dynamically

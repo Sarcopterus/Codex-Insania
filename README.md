@@ -36,3 +36,6 @@ AchaeaSystem.modules.gui.init()
 
 ### Events and Aliases
 See each module header for the events it registers. Aliases such as `crowdmap goto <area>` or `extinction <target>` rely on the standard Achaea aliases provided by the Mudlet client.
+=======
+The system listens to GMCP events to keep your curing and defences updated.  Modules can be extended by adding new files under `AchaeaSystem/modules`.
+

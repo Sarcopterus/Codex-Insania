@@ -17,6 +17,9 @@ Shared state:
 
 local unnamable = {}
 local handlers = {}
+]]
+
+local unnamable = {}
 
 unnamable.horror = 0
 
@@ -49,5 +52,4 @@ function unnamable.unregister()
   if handlers.horror then killAnonymousEventHandler(handlers.horror) end
   handlers.horror = nil
 end
-
 return unnamable

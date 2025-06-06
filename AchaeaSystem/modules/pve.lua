@@ -14,7 +14,6 @@ Shared state:
 ]]
 
 local pve = {}
-local handlers = {}
 
 pve.target = nil
 

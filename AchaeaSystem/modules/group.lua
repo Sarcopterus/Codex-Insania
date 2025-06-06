@@ -13,6 +13,11 @@ Shared state:
 local group = {}
 local handlers = {}
 
+]]
+
+local group = {}
+
+
 group.leader = nil
 
 function group.follow(name)

@@ -1,15 +1,16 @@
 --[[
 Optional Geyser GUI elements for displaying system state
+
 Easily themed and extendable.
 
 Usage:
   local gui = require('AchaeaSystem.modules.gui')
   gui.init()
   gui.updateVitals(1000, 800)
+
 ]]
 
 local gui = {}
-
 gui.colors = {
   background = "black",
   text = "white",

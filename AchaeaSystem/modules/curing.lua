@@ -3,6 +3,7 @@ Curing module
 Handles afflictions and defences using both server-side and client-side logic.
 Compatible with Legacy and SVOF conventions.
 
+
 Usage:
   local curing = require('AchaeaSystem.modules.curing')
   curing.register()
@@ -15,7 +16,7 @@ Shared state:
 ]]
 
 local curing = {}
-local handlers = {}
+
 
 curing.afflictions = {}
 curing.defences = {}
