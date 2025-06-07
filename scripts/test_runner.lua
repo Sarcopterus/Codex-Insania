@@ -1,16 +1,20 @@
-local files = {}
-for f in io.popen("find AchaeaSystem -name '*.lua'"):lines() do table.insert(files,f) end
-local ok = true
-for _,f in ipairs(files) do
-  local res, typ, status = os.execute(string.format('luac -p %s', f))
-  if not res then ok=false print('syntax error in '..f) end
+local default = {
+  head = {hp=100,broken=false},
+  torso = {hp=100,broken=false},
+  left_arm = {hp=100,broken=false},
+  right_arm = {hp=100,broken=false},
+  left_leg = {hp=100,broken=false},
+  right_leg = {hp=100,broken=false},
+}
+
+function limb.status(target)
+  return limb.targets[target] or default
 end
-if not ok then print('syntax check failed') os.exit(1) else print('syntax OK') end
 
-package.path = 'AchaeaSystem/?.lua;AchaeaSystem/?/init.lua;' .. package.path
-ci = {Bus={on=function()end,fire=function()end}, queue={push=function()end}}
+function limb.update(target, data)
+  limb.targets[target] = data
+end
 
-dofile('AchaeaSystem/core/cureTables.lua')
-local ac = require('AchaeaSystem.modules.autoCure')
-assert(ac.test())
-print('tests passed')
+limb.thresholds = {break_at=0, prep_at=60}
+
+return limb

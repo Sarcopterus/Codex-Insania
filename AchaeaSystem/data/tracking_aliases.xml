@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<AliasPackage>
+		<Alias isActive="yes" isFolder="no">
+			<name>Target example</name>
+			<script>target = matches[2]:lower():title()
+targets = targets or {}
+targets[target] = targets[target] or tracker:new()
+echo(matches[2]..' added to tracking manually.')</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^track (\S+)$</regex>
+		</Alias>
+	</AliasPackage>
+</MudletPackage>
