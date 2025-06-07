@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>danaeus_aff</name>
+			<packageName></packageName>
+			<script>function danaeus_aff(e, who, what, bonus)
+
+  if e == "danaeus aff gained" then
+    echo("\n[Danaeus]: I have observed "..who.." to be afflicted with "..what)
+  elseif e == "danaeus affs gained" then
+    echo("\n[Danaeus]: I have observed "..who.." to be afflicted with "..table.concat(what, ", "))
+  elseif e == "danaeus affs gated" then
+    local move_on = false
+    for _, aff in ipairs(what) do
+      -- do your own aff tracking logic here; if any of these afflictions isn't 100% on, then move_on = false.
+    end
+    if move_on then
+      echo("\n[Danaeus]: I have observed "..who.." to be afflicted with "..table.concat(bonus, ", "))
+    else
+      echo("\n[Danaeus]: I have observed "..who.." to be afflicted with "..table.concat(what, ", "))
+    end
+  end
+
+end</script>
+			<eventHandlerList>
+				<string>danaeus aff gained</string>
+				<string>danaeus affs gained</string>
+				<string>danaeus affs gated</string>
+			</eventHandlerList>
+		</Script>
+	</ScriptPackage>
+</MudletPackage>

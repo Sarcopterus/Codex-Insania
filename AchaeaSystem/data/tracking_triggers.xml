@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<TriggerPackage>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Curing</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>3p Cures</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList />
+				<regexCodePropertyList />
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Whisperingmadness Cured</name>
+					<script>targetting(matches[2]):cure(function(n) return table.contains(n.cures, "whisperingmadness") end)
+
+curing_queue = curing_queue or {}
+if curing_queue[matches[2]] then
+  table.remove(curing_queue[matches[2]], #curing_queue)
+end</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) ceases \w+ violent trembling\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Paralysis (by action)</name>
+					<script>local s = targetting(matches[2])
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) gestures grandly, and causes a deepfreeze to settle over \w+ enemies\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</TriggerGroup>
+			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Generic Cures</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList />
+				<regexCodePropertyList />
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>eat trig</name>
+					<script>local highlights = {
+  green = {"a piece of kelp", "an aurum flake"},
+  brown = {"a ferrum flake", "a ginseng root"},
+  red = {"a bloodroot leaf", "a magnesium chip"},
+  yellow = {"a plumbum flake", "a goldenseal root"},
+  purple = {"a lobelia seed", "an argentum flake"},
+}
+
+local table_flip = function(tbl)
+  local t = {}
+  for k, v in pairs(tbl) do
+    for a, b in pairs(v) do
+      t[b] = k
+    end
+  end
+  return t
+end
+
+local highlights = table_flip(highlights)
+if target == matches[2] then
+  selectString(line, 1)
+  if highlights[matches[3]] then
+    bg(highlights[matches[3]])
+  else
+    bg("orange")
+  end
+  fg("black")
+  deselect()
+  resetFormat()
+end
+
+if highlights[matches[3]] and target == matches[2] then
+  stopStopWatch("occultist.herb")
+  resetStopWatch("occultist.herb")
+  startStopWatch("occultist.herb")
+  herb(1.6)
+end
+
+--
+targetting(matches[2]).last_cure = {name = 'eat', what = matches[3]}
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "eat", flags = {matches[3]}}
+table.insert(curing_queue[matches[2]], t)</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) eats ((?:an?|some) .+)\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Tree of Life</name>
+					<script>local s = targetting(matches[2])
+s.last_cure = 'tree'
+s.afflictions.paralysis:lose()
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "tree", flags = {""}}
+table.insert(curing_queue[matches[2]], t)
+
+if matches[2] == target then
+  selectString(line, 1) fg("black") bg("ForestGreen")
+  deselect()
+  resetFormat()
+end</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) touches a tree of life tattoo.</string>
+						<string>^The amorphous form of (\w+) trembles, some of the liquid composing it falling away from the greater whole\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>smoke</name>
+					<script>local s = targetting(matches[2])
+if s.afflictions.asthma.confidence &gt; 0 then s:backtrack("asthma", s.last_cure) end
+s.last_cure = 'smoke'
+if s.asthma_backtrack then killTimer(s.asthma_backtrack) end
+ s.asthma_backtrack = nil   
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "smoke", flags = {""}}
+table.insert(curing_queue[matches[2]], t)</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) takes a long drag off \w+ pipe\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Focus</name>
+					<script>deleteLine()
+if matches[2] == target then
+  cecho("&lt;black:yellow&gt;\n| "..line.." |")
+end
+
+local s = targetting(matches[2])
+s.last_cure = 'focus'
+s.afflictions.impatience:lose()
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "focus", flags = {""}}
+table.insert(curing_queue[matches[2]], t)
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^A look of extreme focus crosses the face of (\w+)\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Sileris</name>
+					<script>local s = targetting(matches[2])
+local a = s.afflictions
+a.paralysis:lose()
+a.slickness:lose()</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) applies a quicksilver droplet to \w+self\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</TriggerGroup>
+			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Class Cures</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList />
+				<regexCodePropertyList />
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Serpent</name>
+					<script>local s = targetting(matches[2])
+
+s.afflictions.weariness:lose()
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "tree", flags = {""}}
+table.insert(curing_queue[matches[2]], t)
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) hunches \w+ shoulders and lets out a soft hiss\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Fitness</name>
+					<script>s = targetting(matches[2])
+a = s.afflictions
+
+a.weariness:lose()
+a.asthma:lose()</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\w+) draws a deep, measured breath\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Airlord</name>
+					<script>local s = targetting(matches[2])
+
+s.last_cure = 'susurrate'
+
+curing_queue = curing_queue or {}
+
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+
+local t = {name = "passive", flags = {s.afflictions.voyria}}
+
+table.insert(curing_queue[matches[2]], t)</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^The tempestuous form of (\w+) is cleansed by a purifying breeze\.$</string>
+						<string>^A soft chiming emanates from (\w+)\.$</string>
+						<string>^A gentle glow surrounds (\w+)\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+						<integer>1</integer>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Shaman</name>
+					<script>local s = targetting(matches[2])
+
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "tree", flags = {""}}
+table.insert(curing_queue[matches[2]], t)
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^A pale mist begins to rise from the skin of (\w+)\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>Bloodboil</name>
+					<script>local s = targetting(matches[2])
+
+s.afflictions.haemophilia:lose()
+curing_queue = curing_queue or {}
+curing_queue[matches[2]] = curing_queue[matches[2]] or {}
+local t = {name = "tree", flags = {""}}
+table.insert(curing_queue[matches[2]], t)
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^Perspiration suddenly breaks out on (\S+)'s forehead\.$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</TriggerGroup>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>Process curing queue</name>
+				<script>curing_queue = curing_queue or {}
+if #table.keys(curing_queue) == 0 then return end
+--display(curing_queue)
+
+
+local c = {
+  eat = function(cu)
+    return function(n)
+      return n.eat and not table.contains(n.cures, "3p") and table.contains(n.cures, cu) 
+    end
+  end,
+  tree = function(c) return
+    function(n)
+      return not table.contains(n.cures, "3p")
+    end
+  end,
+  passive = function(c)
+    display(c)
+    if c.confidence == 1 then
+      c:lose()
+      return function(n) return false end
+    else
+      return function(n)
+        --  display(n)
+        return not table.contains(n.cures, "3p")
+      end
+    end
+  end,
+  smoke = function(c) return
+    function(n)
+      return n.smoke
+    end
+  end,
+  focus = function(c) return
+    function(n)
+      return n.focus 
+    end
+  end,
+}
+
+for who, list in pairs(curing_queue) do
+  local s = targetting(who)
+  for _, method in ipairs(list) do
+    s:cure(c[method.name](method.flags[1]))
+  end
+end
+curing_queue = {}</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string></string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>7</integer>
+				</regexCodePropertyList>
+			</Trigger>
+		</TriggerGroup>
+	</TriggerPackage>
+</MudletPackage>
