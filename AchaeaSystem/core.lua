@@ -1,3 +1,5 @@
+-0
+
 --[[
 Codex-Insania core
 Initialises all modules and wires up GMCP handlers.
@@ -34,6 +36,9 @@ AchaeaSystem.off = AchaeaSystem.unregisterEventHandler
 function AchaeaSystem.publish(name, ...)
   raiseEvent("AchaeaSystem." .. name, ...)
 end
+
+-- alternative name matching earlier docs
+AchaeaSystem.fireEvent = AchaeaSystem.publish
 
 function AchaeaSystem.subscribe(name, handler)
   return AchaeaSystem.registerEventHandler("AchaeaSystem." .. name, handler)

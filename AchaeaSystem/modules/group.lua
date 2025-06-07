@@ -7,7 +7,7 @@ Usage:
   grp.stop()
 
 Events:
-  - custom "group.disband" to trigger group.stop
+  (none by default; integrate with your own triggers if needed)
 Shared state:
   group.leader - current leader being followed
 ]]
@@ -23,12 +23,12 @@ function group.follow(name)
 end
 
 function group.register()
-  handlers.disband = AchaeaSystem.registerEventHandler('group.disband', 'AchaeaSystem.modules.group.stop')
+  -- register group-related event handlers here if desired
 end
 
 function group.unregister()
-  if handlers.disband then AchaeaSystem.unregisterEventHandler(handlers.disband) end
-  handlers.disband = nil
+  for _, id in pairs(handlers) do AchaeaSystem.unregisterEventHandler(id) end
+  handlers = {}
 end
 
 function group.init()
