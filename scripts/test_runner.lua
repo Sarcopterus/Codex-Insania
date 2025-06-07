@@ -11,9 +11,9 @@ package.path = 'AchaeaSystem/?.lua;AchaeaSystem/?/init.lua;' .. package.path
 AchaeaSystem = {bus={on=function()end,fire=function()end}, queue={push=function()end}}
 ci = AchaeaSystem
 
-dofile('AchaeaSystem/core/cureTables.lua')
+require('AchaeaSystem.core.cureTables')
 local ac = require('AchaeaSystem.modules.autoCure')
 assert(ac.test())
-dofile('test/curing_spec.lua')
-dofile('test/cooldowns_spec.lua')
+require('test.curing_spec')
+require('test.cooldowns_spec')
 print('tests passed')

@@ -1,12 +1,12 @@
 --- @docs PvP brain loop feeding class modules
 local brain = {classMod=nil, timer=nil, target=nil, currentClass='unnamable'}
 
-local function pathFor(class)
-  return 'AchaeaSystem/classes/'..class..'.lua'
+local function modNameFor(class)
+  return 'AchaeaSystem.classes.'..class
 end
 
 function brain.loadClass(class)
-  local ok, mod = pcall(dofile, pathFor(class))
+  local ok, mod = pcall(require, modNameFor(class))
   if ok and type(mod)=='table' then
     brain.classMod = mod
     brain.currentClass = class

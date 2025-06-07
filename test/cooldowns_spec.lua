@@ -6,7 +6,7 @@ getStopWatchTime = function() return 0 end
 tempTimer = function(sec, fn) return 1 end
 killTimer = function(id) end
 
-local cd = dofile('AchaeaSystem/modules/cooldowns.lua')
+local cd = require('AchaeaSystem.modules.cooldowns')
 cd.start('extinction', 5)
 assert(cd.remaining('extinction') <= 5 and cd.remaining('extinction') >= 4.9)
 print('cooldowns_spec ok')
