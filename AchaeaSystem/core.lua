@@ -47,15 +47,18 @@ AchaeaSystem.queue = loadModule("AchaeaSystem/core/queue.lua")
 AchaeaSystem.limbs = loadModule("AchaeaSystem/core/limbs.lua")
 AchaeaSystem.docs = loadModule("AchaeaSystem/core/docs.lua")
 
+require("AchaeaSystem.core.bus")
+
 local mods = {
-  "core.bus",
   "core.cureTables",
   "modules.autoCure",
   "modules.offense",
+  "modules.groupComms",
   "modules.gui",
 }
 for _,m in ipairs(mods) do
-  require("AchaeaSystem."..m)
+  local mod = require("AchaeaSystem." .. m)
+  if type(mod) == "table" and mod.init then mod.init() end
 end
 
 -- GMCP initialisation

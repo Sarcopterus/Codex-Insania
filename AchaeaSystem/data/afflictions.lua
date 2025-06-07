@@ -12,4 +12,9 @@ return {
   "weariness",
   "hypochondria",
   "nausea",
+  "aeon",
+  "hellsight",
+  "asleep",
+  "voyria",
+  "malaise",
 }

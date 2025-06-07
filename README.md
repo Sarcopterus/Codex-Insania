@@ -32,7 +32,8 @@ The system listens to GMCP events to keep your curing and defences updated. Modu
 - **groupComms** – responds to focus tells from leader.
 
 Each module exposes a `register()` method to attach its event handlers and an `unregister()` method to clean up.
-Modules also define an optional `init()` which the core calls during startup to register default handlers.  You can reload a module at any time by running its `unregister()` and `register()` functions.
+Modules also define an optional `init()` which the core calls during startup to register default handlers. You may reload a module at any time by running its `unregister()` function followed by `register()`.
+Modules listed in `core.lua` are loaded automatically when the system initialises.
 
 ### Custom Events
 Modules communicate through a small pub/sub API. Use `AchaeaSystem.publish("event", ...)` to raise an event and `AchaeaSystem.subscribe("event", handler)` to listen. Remove a subscription with `AchaeaSystem.unsubscribe(id)`.
