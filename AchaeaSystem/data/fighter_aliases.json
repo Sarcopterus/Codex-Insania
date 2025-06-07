@@ -1,0 +1,17 @@
+[
+    {
+        "name": "callAction",
+        "isActive": "yes",
+        "regex": "^fight$"
+    },
+    {
+        "name": "showHelp",
+        "isActive": "yes",
+        "regex": "^fighthelp$"
+    },
+    {
+        "name": "fightReset",
+        "isActive": "yes",
+        "regex": "^fightreset$"
+    }
+]
