@@ -1,5 +1,4 @@
 # Codex-Insania
-
 Modular Mudlet system for **Achaea**. Includes automatic curing, PvE/PvP helpers and optional GUI.  Optimised for the *Unnamable* SnB specialization.
 
 ## Installation
