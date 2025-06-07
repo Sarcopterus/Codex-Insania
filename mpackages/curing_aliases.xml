@@ -1,0 +1,109 @@
+<aliases>
+  <alias regex="^ssc (on|off)$">
+    <script><![CDATA[
+      local arg = matches[2]
+      local curing = AchaeaSystem.modules and AchaeaSystem.modules.curing
+      if curing then curing.toggle(arg) end
+    ]]></script>
+  </alias>
+  <alias regex="^prio (\w+)$">
+    <script><![CDATA[
+      local aff = matches[2]
+      local curing = AchaeaSystem.modules and AchaeaSystem.modules.curing
+      if curing then curing.insertPriority(aff, 1) end
+    ]]></script>
+  </alias>
+  <alias regex="^enemyclass (\w+)$">
+    <script><![CDATA[
+      local cls = matches[2]
+      local curing = AchaeaSystem.modules and AchaeaSystem.modules.curing
+      if curing then curing.setClass(cls) end
+    ]]></script>
+  </alias>
+  <alias regex="^cd (\w+)$">
+    <script><![CDATA[
+      local skill = matches[2]
+      local cd = AchaeaSystem.modules and AchaeaSystem.modules.cooldowns
+      if cd and cd.remaining then
+        local r = cd.remaining(skill)
+        cecho(string.format('<yellow>%s cooldown: %.1f\n', skill, r))
+      end
+    ]]></script>
+  </alias>
+  <alias regex="^focus (\w+)$">
+    <script><![CDATA[
+      local t = matches[2]
+      local tgt = AchaeaSystem.modules and AchaeaSystem.modules.targeting
+      if tgt and tgt.set then tgt.set(t) end
+    ]]></script>
+  </alias>
+  <alias regex="^horror$">
+    <script><![CDATA[
+      local u = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.unnamable
+      if u and u.addHorror then u.addHorror() end
+    ]]></script>
+  </alias>
+  <alias regex="^opp (on|off)$">
+    <script><![CDATA[
+      local arg = matches[2]
+      local brain = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.brain
+      if brain then
+        if arg == 'on' then brain.start(AchaeaSystem.modules.targeting.get() or 'target') else brain.stop() end
+      end
+    ]]></script>
+  </alias>
+  <alias regex="^shrineauto (on|off)$">
+    <script><![CDATA[
+      local arg = matches[2]
+      local m = AchaeaSystem.modules and AchaeaSystem.modules.shrine
+      if m and m.toggleAuto then m.toggleAuto(arg) end
+    ]]></script>
+  </alias>
+  <alias regex="^setfinisher (\d+)$">
+    <script><![CDATA[
+      local n = tonumber(matches[2])
+      local u = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.unnamable
+      if u and u.setThreshold then u.setThreshold(n) end
+    ]]></script>
+  </alias>
+  <alias regex="^lastareas$">
+    <script><![CDATA[
+      local area = AchaeaSystem.modules and AchaeaSystem.modules.area
+      if area and area.printHistory then area.printHistory() end
+    ]]></script>
+  </alias>
+  <alias regex="^setclass (\w+)$">
+    <script><![CDATA[
+      local cls = matches[2]
+      local brain = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.brain
+      if brain and brain.loadClass then brain.loadClass(cls) end
+    ]]></script>
+  </alias>
+  <alias regex="^focusme$">
+    <script><![CDATA[
+      local name = gmcp.Char and gmcp.Char.Status and gmcp.Char.Status.name or ''
+      if name ~= '' then send('gt focus '..name) end
+    ]]></script>
+  </alias>
+  <alias regex="^horror (\d+)$">
+    <script><![CDATA[
+      local n = tonumber(matches[2])
+      local u = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.unnamable
+      if u and n then u.resetHorror(); for i=1,n do u.addHorror() end end
+    ]]></script>
+  </alias>
+  <alias regex="^catatoggle$">
+    <script><![CDATA[
+      local u = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.unnamable
+      if u then u.config.autoCatastrophe = not u.config.autoCatastrophe end
+      cecho(string.format('<cyan>Auto-catastrophe: %s\n', tostring(u and u.config.autoCatastrophe)))
+    ]]></script>
+  </alias>
+  <alias regex="^finisher reset$">
+    <script><![CDATA[
+      local u = AchaeaSystem.modules and AchaeaSystem.modules.pvp and AchaeaSystem.modules.pvp.unnamable
+      if u then u.resetHorror(); u.resetKillpath() end
+      cecho('<cyan>Killpath reset\n')
+    ]]></script>
+  </alias>
+</aliases>

@@ -1,0 +1,20 @@
+-- List of common afflictions. Customize this table to adjust curing priorities.
+return {
+  "asthma",
+  "clumsiness",
+  "paresis",
+  "paralysis",
+  "anorexia",
+  "epilepsy",
+  "slickness",
+  "dizziness",
+  "stupidity",
+  "weariness",
+  "hypochondria",
+  "nausea",
+  "aeon",
+  "hellsight",
+  "asleep",
+  "voyria",
+  "malaise",
+}
