@@ -30,6 +30,10 @@ The system listens to GMCP events to keep your curing and defences updated. Modu
 - **limbSync** – optional bridge to Legacy limb tracker emitting `limb.update`.
 - **offense** – finisher logic, toggle with `opp on|off`.
 - **groupComms** – responds to focus tells from leader.
+- **curing** – controls server-side curing. Toggle with `ssc on|off`.
+- **cooldowns** – tracks skill cooldowns and emits `cooldown.*` events.
+- **targeting** – central target handler listening to focus tells.
+- **area** – records recently visited areas.
 
 Each module exposes a `register()` method to attach its event handlers and an `unregister()` method to clean up.
 Modules also define an optional `init()` which the core calls during startup to register default handlers. You may reload a module at any time by running its `unregister()` function followed by `register()`.
@@ -51,6 +55,15 @@ curing.register()
 
 -- later, disable it
 curing.unregister()
+```
+
+### Server Curing
+Toggle server-side curing:
+
+```
+ssc on
+ssc off
+enemyclass <class>
 ```
 
 ### Example
@@ -84,6 +97,18 @@ offense.register()
 ```
 ### Events and Aliases
 See each module header for the events it registers. Aliases such as `crowdmap goto <area>` or `extinction <target>` rely on the standard Achaea aliases provided by the Mudlet client.
+Additional aliases:
+```
+cd <skill>      -- show cooldown remaining
+focus <name>    -- set current target
+horror          -- add a horror stack manually
+opp on|off      -- toggle PvP brain loop
+shrineauto on|off -- auto offer corpses when near a shrine
+setfinisher <n> -- set horror stack threshold
+lastareas       -- print recently visited areas
+setclass <cls>  -- override class module
+focusme         -- tell group to focus you
+```
 
 ### Development
 Run `lua5.4 scripts/test_runner.lua` to check syntax. Documentation is generated in `docs/api/` on load.

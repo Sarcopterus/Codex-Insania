@@ -6,9 +6,10 @@ Adjust the source event name if your limb tracker uses a different one.
 
 local limbSync = {}
 local handlers = {}
+local Bus = ci.bus
 
 function limbSync.handleUpdate(...)
-  AchaeaSystem.eventBus.publish('limb.update', ...)
+  Bus:fire('limb.update', ...)
 end
 
 function limbSync.register()

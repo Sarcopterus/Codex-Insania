@@ -6,6 +6,7 @@ Designed for full modularity using Mudlet packages.
 
 AchaeaSystem = AchaeaSystem or {}
 ci = AchaeaSystem
+AchaeaSystem.modules = AchaeaSystem.modules or {}
 
 --[[
 Event utilities
@@ -51,6 +52,11 @@ require("AchaeaSystem.core.bus")
 
 local mods = {
   "core.cureTables",
+  "modules.curing",
+  "modules.afftracker",
+  "modules.cooldowns",
+  "modules.targeting",
+  "modules.area",
   "modules.autoCure",
   "modules.offense",
   "modules.groupComms",
@@ -58,7 +64,10 @@ local mods = {
 }
 for _,m in ipairs(mods) do
   local mod = require("AchaeaSystem." .. m)
-  if type(mod) == "table" and mod.init then mod.init() end
+  if type(mod) == "table" then
+    AchaeaSystem.modules[m] = mod
+    if mod.init then mod.init() end
+  end
 end
 
 -- GMCP initialisation

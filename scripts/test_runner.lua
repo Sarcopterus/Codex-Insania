@@ -8,9 +8,12 @@ end
 if not ok then print('syntax check failed') os.exit(1) else print('syntax OK') end
 
 package.path = 'AchaeaSystem/?.lua;AchaeaSystem/?/init.lua;' .. package.path
-ci = {Bus={on=function()end,fire=function()end}, queue={push=function()end}}
+AchaeaSystem = {bus={on=function()end,fire=function()end}, queue={push=function()end}}
+ci = AchaeaSystem
 
 dofile('AchaeaSystem/core/cureTables.lua')
 local ac = require('AchaeaSystem.modules.autoCure')
 assert(ac.test())
+dofile('test/curing_spec.lua')
+dofile('test/cooldowns_spec.lua')
 print('tests passed')

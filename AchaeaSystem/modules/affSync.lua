@@ -6,9 +6,10 @@ an "aff.update" event for other modules.
 
 local affSync = {}
 local handlers = {}
+local Bus = ci.bus
 
 function affSync.handleUpdate(...)
-  AchaeaSystem.eventBus.publish('aff.update', ...)
+  Bus:fire('aff.update', ...)
 end
 
 function affSync.register()

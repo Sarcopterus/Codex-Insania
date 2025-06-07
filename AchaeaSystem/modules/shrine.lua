@@ -21,6 +21,14 @@ local handlers = {}
 shrine.essence = 0
 shrine.corpses = {}
 shrine.shrinePresent = false
+shrine.auto = false
+
+local function checkAuto()
+  if not shrine.auto then return end
+  local vit = gmcp.Char and gmcp.Char.Vitals or {}
+  if vit.in_combat then return end
+  shrine.offerCorpses()
+end
 
 function shrine.handleStatus()
   shrine.essence = tonumber(gmcp.Char.Status.essence or 0)
@@ -41,6 +49,7 @@ function shrine.handleItems()
       shrine.shrinePresent = present
       AchaeaSystem.publish('shrine.presence', shrine.shrinePresent)
     end
+    checkAuto()
   elseif list.location == "inv" then
     shrine.corpses = {}
     for _, it in ipairs(list.items or {}) do
@@ -49,6 +58,7 @@ function shrine.handleItems()
       end
     end
     AchaeaSystem.publish('shrine.corpses', shrine.corpses)
+    checkAuto()
   end
 end
 
@@ -64,9 +74,16 @@ function shrine.offerCorpses()
   end
 end
 
+function shrine.toggleAuto(arg)
+  shrine.auto = (arg == 'on')
+  cecho(string.format('<cyan>Shrine auto %s\n', shrine.auto and 'enabled' or 'disabled'))
+  checkAuto()
+end
+
 function shrine.register()
   handlers.status = AchaeaSystem.registerEventHandler('gmcp.Char.Status', 'AchaeaSystem.modules.shrine.handleStatus')
   handlers.items = AchaeaSystem.registerEventHandler('gmcp.Char.Items.List', 'AchaeaSystem.modules.shrine.handleItems')
+  handlers.room  = AchaeaSystem.registerEventHandler('gmcp.Room.Info', 'AchaeaSystem.modules.shrine.handleItems')
 end
 
 function shrine.unregister()

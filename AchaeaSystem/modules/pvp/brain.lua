@@ -1,5 +1,5 @@
 --- @docs PvP brain loop feeding class modules
-local brain = {classMod=nil, timer=nil, target=nil}
+local brain = {classMod=nil, timer=nil, target=nil, currentClass='unnamable'}
 
 local function pathFor(class)
   return 'AchaeaSystem/classes/'..class..'.lua'
@@ -7,7 +7,14 @@ end
 
 function brain.loadClass(class)
   local ok, mod = pcall(dofile, pathFor(class))
-  if ok then brain.classMod = mod else brain.classMod = nil end
+  if ok and type(mod)=='table' then
+    brain.classMod = mod
+    brain.currentClass = class
+    cecho(string.format('<green>Loaded class %s\n', class))
+  elseif class ~= 'unnamable' then
+    cecho('<red>No class module, falling back to unnamable\n')
+    brain.loadClass('unnamable')
+  end
 end
 
 function brain.loop()
@@ -28,7 +35,11 @@ function brain.stop()
 end
 
 function brain.init()
-  brain.loadClass('unnamable')
+  brain.loadClass(brain.currentClass)
+end
+
+function brain.setClass(cls)
+  brain.loadClass(cls)
 end
 
 return brain
