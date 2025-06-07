@@ -1,0 +1,14 @@
+<aliases>
+  <alias regex="^setstrat (\w+)$">
+    <script><![CDATA[
+      ci.pvp = ci.pvp or {}
+      ci.pvp.strategy = matches[2]
+      cecho("Strategy set to: " .. ci.pvp.strategy .. "\n")
+      if ci.events and ci.events.fire then
+        ci.events.fire("pvp.strategy.changed", ci.pvp.strategy)
+      elseif ci.Bus and ci.Bus.fire then
+        ci.Bus:fire("pvp.strategy.changed", ci.pvp.strategy)
+      end
+    ]]></script>
+  </alias>
+</aliases>
