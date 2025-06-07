@@ -35,11 +35,11 @@ function unnamable.resetHorror()
 end
 
 function unnamable.extinction(target)
-  send("extinction " .. (target or ""))
+  AchaeaSystem.queue.push("extinction " .. (target or ""))
 end
 
 function unnamable.catastrophe(target)
-  send("catastrophe " .. (target or ""))
+  AchaeaSystem.queue.push("catastrophe " .. (target or ""))
 end
 
 function unnamable.register()

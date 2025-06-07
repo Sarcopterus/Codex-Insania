@@ -21,6 +21,13 @@ The system listens to GMCP events to keep your curing and defences updated. Modu
 - **group** – group coordination tools.
 - **shrine** – essence donation and corpse offering automation.
 - **gui** – Geyser front-end.
+- **eventBus** – lightweight publish/subscribe hub.
+- **queue** – action queue used by all modules.
+- **limbs** – facade for Romaen's limb tracker. Install `limb.1.3.mpackage` manually; it is not included in this repository.
+- **affSync** – bridge to AfflictionTracker emitting `aff.update`.
+- **limbSync** – optional bridge to Legacy limb tracker emitting `limb.update`.
+- **offense** – finisher logic, toggle with `opp on|off`.
+- **groupComms** – responds to focus tells from leader.
 
 Each module exposes a `register()` method to attach its event handlers and an `unregister()` method to clean up.
 Modules also define an optional `init()` which the core calls during startup to register default handlers.  You can reload a module at any time by running its `unregister()` and `register()` functions.
@@ -28,6 +35,7 @@ Modules also define an optional `init()` which the core calls during startup to 
 ### Custom Events
 Modules communicate through a small pub/sub API. Use `AchaeaSystem.publish("event", ...)` to raise an event and `AchaeaSystem.subscribe("event", handler)` to listen. Remove a subscription with `AchaeaSystem.unsubscribe(id)`.
 For normal Mudlet events you can register callbacks with `AchaeaSystem.registerEventHandler(event, handler)` (alias `AchaeaSystem.on`) which returns an id for later removal via `AchaeaSystem.unregisterEventHandler(id)` (alias `AchaeaSystem.off`). `AchaeaSystem.fireEvent` is a synonym for `publish`.
+The event API is implemented by the `eventBus` module and can be used by your own scripts as well.
 
 ### Loading Modules
 To enable a feature, call its `register()` function. When you no longer need the
@@ -51,5 +59,28 @@ pve.start("training dummy")
 AchaeaSystem.modules.gui.init()
 ```
 
+
+### Shrine Module Example
+The shrine module tracks nearby shrines and corpses. It publishes `shrine.essence`, `shrine.presence`, and `shrine.corpses` events.
+
+```lua
+local shrine = AchaeaSystem.modules.shrine
+shrine.register()
+AchaeaSystem.subscribe('shrine.essence', function(amount)
+  cecho('<blue>Essence now: ' .. amount .. '\n')
+end)
+```
+
+### Offense Module Example
+The offense module listens to your affliction and limb trackers. Toggle it with
+`opp on` or `opp off`.
+
+```lua
+local offense = AchaeaSystem.modules.offense
+offense.register()
+```
 ### Events and Aliases
 See each module header for the events it registers. Aliases such as `crowdmap goto <area>` or `extinction <target>` rely on the standard Achaea aliases provided by the Mudlet client.
+
+### Development
+Run `lua5.4 scripts/test_runner.lua` to check syntax. Documentation is generated in `docs/api/` on load.

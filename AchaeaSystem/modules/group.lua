@@ -19,7 +19,7 @@ group.leader = nil
 
 function group.follow(name)
   group.leader = name
-  send("follow " .. name)
+  AchaeaSystem.queue.push("follow " .. name)
 end
 
 function group.register()
@@ -37,7 +37,7 @@ end
 
 function group.stop()
   group.leader = nil
-  send("unfollow")
+  AchaeaSystem.queue.push("unfollow")
 end
 
 return group

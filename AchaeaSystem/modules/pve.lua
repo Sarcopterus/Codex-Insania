@@ -23,23 +23,23 @@ pve.target = nil
 
 function pve.start(target)
   pve.target = target or ""
-  send("queue add eqbal bash " .. pve.target)
+  AchaeaSystem.queue.push("queue add eqbal bash " .. pve.target)
   AchaeaSystem.publish('pve.start', pve.target)
 end
 
 function pve.stop()
   pve.target = nil
-  send("queue clear eqbal")
+  AchaeaSystem.queue.push("queue clear eqbal")
   AchaeaSystem.publish('pve.stop')
 end
 
 function pve.gotoArea(area)
-  send("crowdmap goto " .. area)
+  AchaeaSystem.queue.push("crowdmap goto " .. area)
 end
 
 -- simple battlerage usage
 function pve.useBattlerage()
-  send("battlerage repeat on")
+  AchaeaSystem.queue.push("battlerage repeat on")
 end
 
 

@@ -48,7 +48,7 @@ end
 -- Example call to cure an affliction
 function curing.cure(aff)
   -- implement custom curing priorities here
-  send("cure " .. aff)
+  AchaeaSystem.queue.push("cure " .. aff)
 end
 
 function curing.register()

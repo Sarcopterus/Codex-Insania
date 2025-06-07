@@ -1,5 +1,3 @@
--0
-
 --[[
 Codex-Insania core
 Initialises all modules and wires up GMCP handlers.
@@ -7,17 +5,13 @@ Designed for full modularity using Mudlet packages.
 ]]
 
 AchaeaSystem = AchaeaSystem or {}
--- Table storing loaded modules. Each module is an independent mpackage
--- and should register its own event handlers when loaded.
-AchaeaSystem.modules = {}
+ci = AchaeaSystem
 
 --[[
 Event utilities
 ---------------
 `registerEventHandler(event, handler)` wraps Mudlet's anonymous event
-registration. `unregisterEventHandler(id)` removes the handler.  The
-`publish`/`subscribe` helpers implement a lightweight pub/sub mechanism so
-modules can communicate without direct references.
+registration. `unregisterEventHandler(id)` removes the handler.
 ]]
 
 function AchaeaSystem.registerEventHandler(event, handler)
@@ -31,22 +25,6 @@ end
 -- Backwards compatibility aliases
 AchaeaSystem.on = AchaeaSystem.registerEventHandler
 AchaeaSystem.off = AchaeaSystem.unregisterEventHandler
-
--- Pub/Sub helpers using a common event prefix
-function AchaeaSystem.publish(name, ...)
-  raiseEvent("AchaeaSystem." .. name, ...)
-end
-
--- alternative name matching earlier docs
-AchaeaSystem.fireEvent = AchaeaSystem.publish
-
-function AchaeaSystem.subscribe(name, handler)
-  return AchaeaSystem.registerEventHandler("AchaeaSystem." .. name, handler)
-end
-
-function AchaeaSystem.unsubscribe(id)
-  AchaeaSystem.unregisterEventHandler(id)
-end
 
 -- Utility to load modules dynamically
 local function loadModule(path)
@@ -65,29 +43,36 @@ AchaeaSystem.defences = dofile("AchaeaSystem/data/defences.lua")
 AchaeaSystem.mapping = dofile("AchaeaSystem/data/mapping.lua")
 
 -- Module loaders
-AchaeaSystem.modules.curing = loadModule("AchaeaSystem/modules/curing.lua")
-AchaeaSystem.modules.pve = loadModule("AchaeaSystem/modules/pve.lua")
-AchaeaSystem.modules.group = loadModule("AchaeaSystem/modules/group.lua")
-AchaeaSystem.modules.gui = loadModule("AchaeaSystem/modules/gui.lua")
-AchaeaSystem.modules.shrine = loadModule("AchaeaSystem/modules/shrine.lua")
-AchaeaSystem.modules.pvp = {}
-AchaeaSystem.modules.pvp.combat = loadModule("AchaeaSystem/modules/pvp/combat.lua")
-AchaeaSystem.modules.pvp.unnamable = loadModule("AchaeaSystem/modules/pvp/unnamable.lua")
+AchaeaSystem.modules.eventBus = loadModule("AchaeaSystem/modules/eventBus.lua")
+AchaeaSystem.Bus = AchaeaSystem.modules.eventBus
+AchaeaSystem.publish = AchaeaSystem.Bus.publish
+AchaeaSystem.subscribe = AchaeaSystem.Bus.subscribe
+AchaeaSystem.unsubscribe = AchaeaSystem.Bus.unsubscribe
+AchaeaSystem.fireEvent = AchaeaSystem.Bus.fire
+
+AchaeaSystem.queue = loadModule("AchaeaSystem/core/queue.lua")
+AchaeaSystem.limbs = loadModule("AchaeaSystem/core/limbs.lua")
+AchaeaSystem.docs = loadModule("AchaeaSystem/core/docs.lua")
+
+local mods = {
+  "core.cureTables",
+  "core.limbs",
+  "modules.autoCure",
+  "modules.offense",
+  "modules.groupComms",
+  "modules.gui",
+}
+for _,m in ipairs(mods) do
+  local mod = require(m)
+  if mod and mod.init then mod.init() end
+end
 
 -- GMCP initialisation
 function AchaeaSystem.init()
   sendGMCP("Core.Supports.Add [Char 1,Char.Defences 1,Char.Afflictions 1,IRE.Rift 1]")
-  for _, mod in pairs(AchaeaSystem.modules) do
-    if type(mod) == 'table' and type(mod.init) == 'function' then
-      mod.init()
-    elseif type(mod) == 'table' then
-      -- handle submodules (e.g., pvp)
-      for _, sub in pairs(mod) do
-        if type(sub) == 'table' and type(sub.init) == 'function' then
-          sub.init()
-        end
-      end
-    end
+  if AchaeaSystem.docs and AchaeaSystem.docs.generate then AchaeaSystem.docs.generate() end
+  if AchaeaSystem.limbs and AchaeaSystem.limbs.register then
+    AchaeaSystem.limbs.register()
   end
 end
 

@@ -53,12 +53,12 @@ function shrine.handleItems()
 end
 
 function shrine.donate(amount)
-  send(string.format("donate %d essence", amount or shrine.essence))
+  AchaeaSystem.queue.push(string.format("donate %d essence", amount or shrine.essence))
 end
 
 function shrine.offerCorpses()
   if shrine.shrinePresent and #shrine.corpses > 0 then
-    send("offer corpses to shrine")
+    AchaeaSystem.queue.push("offer corpses to shrine")
     cecho("<green>Offered corpses to shrine\n")
     AchaeaSystem.publish('shrine.offered')
   end
