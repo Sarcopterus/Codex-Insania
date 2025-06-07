@@ -41,6 +41,27 @@ function ci.curing.shouldFocus(affs)
   for _,a in ipairs(focus) do if affs[a] then return true end end
 end
 
-function ci.curing.shouldEat(affs)  return ci.curing.nextHerb(affs) ~= nil end
+--- Returns true if any affliction in `affs` is cured by the given herb.
+---@param affs table @{aff=true}
+---@param herb string
+function ci.curing.shouldEat(affs, herb)
+  if herb then
+    local stack = H[herb]
+    if not stack then return false end
+    return hasAny(stack, affs)
+  else
+    return ci.curing.nextHerb(affs) ~= nil
+  end
+end
+
+--- Returns the next cure of a given `kind` needed.
+---@param affs table @{aff=true}
+---@param kind string 'herb'|'salve'|'focus'
+function ci.curing.nextCure(affs, kind)
+  if kind == "herb"   then return ci.curing.nextHerb(affs)
+  elseif kind == "salve" then return ci.curing.nextSalve(affs)
+  elseif kind == "focus" then return ci.curing.shouldFocus(affs) and "focus" or nil
+  end
+end
 
 return ci.curing

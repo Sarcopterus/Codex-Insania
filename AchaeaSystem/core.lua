@@ -43,28 +43,19 @@ AchaeaSystem.defences = dofile("AchaeaSystem/data/defences.lua")
 AchaeaSystem.mapping = dofile("AchaeaSystem/data/mapping.lua")
 
 -- Module loaders
-AchaeaSystem.modules.eventBus = loadModule("AchaeaSystem/modules/eventBus.lua")
-AchaeaSystem.Bus = AchaeaSystem.modules.eventBus
-AchaeaSystem.publish = AchaeaSystem.Bus.publish
-AchaeaSystem.subscribe = AchaeaSystem.Bus.subscribe
-AchaeaSystem.unsubscribe = AchaeaSystem.Bus.unsubscribe
-AchaeaSystem.fireEvent = AchaeaSystem.Bus.fire
-
 AchaeaSystem.queue = loadModule("AchaeaSystem/core/queue.lua")
 AchaeaSystem.limbs = loadModule("AchaeaSystem/core/limbs.lua")
 AchaeaSystem.docs = loadModule("AchaeaSystem/core/docs.lua")
 
 local mods = {
+  "core.bus",
   "core.cureTables",
-  "core.limbs",
   "modules.autoCure",
   "modules.offense",
-  "modules.groupComms",
   "modules.gui",
 }
 for _,m in ipairs(mods) do
-  local mod = require(m)
-  if mod and mod.init then mod.init() end
+  require("AchaeaSystem."..m)
 end
 
 -- GMCP initialisation

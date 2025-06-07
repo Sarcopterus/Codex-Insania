@@ -1,17 +1,27 @@
-local Bus       = ci.Bus
+local bus       = ci.bus
 local queue     = ci.queue
 local curing    = ci.curing
 
 local M = {}
-function M.init()
-  Bus:on("aff.update", function(e)
-    local affs = e.affs
-    local cmd
-    if curing.shouldFocus(affs)            then cmd = "focus"
-    elseif curing.nextSalve(affs)          then cmd = "apply "..curing.nextSalve(affs)
-    elseif curing.nextHerb(affs)           then cmd = "eat "..curing.nextHerb(affs)
-    end
-    if cmd then queue.push(cmd,{prio="high"}) end
-  end)
+local function isBusy()
+  if queue.isBusy then return queue.isBusy() end
+  return queue.timer ~= nil or queue.size() > 0
 end
+
+local function handle(affs)
+  if isBusy() then return end
+  local cmd
+  local salve = curing.nextCure(affs, "salve")
+  if salve then cmd = "apply " .. salve
+  else
+    local herb = curing.nextCure(affs, "herb")
+    if herb then cmd = "eat " .. herb
+    elseif curing.nextCure(affs, "focus") then cmd = "focus" end
+  end
+  if cmd then queue.push(cmd,{prio="high"}) end
+end
+
+bus.subscribe("aff.update", handle)
+
+function M.init() end
 return M

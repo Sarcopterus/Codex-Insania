@@ -8,9 +8,11 @@ local function render()
   win:echo(string.format("<lime>Soft-lock: %s\n<white>Torso: %s\n<yellow>Last: %s",
             soft, torso, ci.queue.last() or " "))
 end
-ci.Bus:on("queue.sent", render)
-ci.Bus:on("aff.update", render)
-ci.Bus:on("limb.update",render)
+  -- TODO GUI HOOKS
+  ci.bus.subscribe("queue.sent", render)
+  ci.bus.subscribe("aff.update", render)
+  ci.bus.subscribe("limb.update", render)
+  ci.bus.subscribe("queue.empty", render)
 
 function win:init() render() end
 return { init = function() end }
