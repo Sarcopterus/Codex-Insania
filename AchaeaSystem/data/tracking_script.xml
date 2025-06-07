@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>Affliction tracking</name>
+			<packageName></packageName>
+			<script>tracker = require("tracking.script")
+afflictions = require("tracking.afflictions")
+targets = targets or {}
+
+function targetting(who)
+  targets = targets or {}
+  targets[who] = targets[who] or tracker:new()
+  targets[who].frozen = targets[who].frozen or 0
+  return targets[who]
+end
+
+function tracker:cure(map)
+  local t = {}
+  local s = self
+  local a = s.afflictions
+  local d = s.defences
+
+  for name, affliction in pairs(a) do
+    if map(affliction) and affliction.confidence &gt; 0 then
+      table.insert(t, name)
+    end
+  end
+  if #t == 0 then return end
+  if table.contains(t, "asthma") and (self:get_affliction_confidence(self:get_afflictions(function(n) return n.smoke == true end)) &gt;= 1) and not self.asthma_backtrack then
+    self.asthma_backtrack = tempTimer(1.2, function()
+      self:backtrack(
+        "asthma",
+        self.last_cure,
+        true
+      )
+      killTimer(self.asthma_backtrack)
+      self.asthma_backtrack = nil
+    end)
+  end
+  
+  local change = 1/#t
+  for _, affliction in pairs(t) do
+    a[affliction].confidence = a[affliction].confidence - change
+  end
+  self:cleanup()
+  raiseEvent("tracker cure")
+end
+
+
+function tracker:cleanup()
+  for name, affliction in pairs(self.afflictions) do
+    if affliction.confidence &lt; 0.25 then affliction.confidence = 0 end
+  end
+end
+
+function tracker:reset()
+  for name, aff in pairs(self.afflictions) do
+    aff.confidence = 0
+  end
+  raiseEvent("tracker cure")
+end
+
+function tracker:get_afflictions(map)
+  local t = {}
+  for affliction, tb in pairs(self.afflictions) do
+    if tb.confidence &gt; 0 and map(tb) then table.insert(t, affliction) end
+  end
+  
+  return t
+end
+
+function tracker:backtrack(affliction, m, reg)
+  local map
+  if type(m) == "table" then
+    map = function(n) return table.contains(n.cures, m.what) and n[m.name] end
+  elseif type(m) == "string" then
+    if m == "tree" then
+      map = function(n) return not table.contains(n.cures, "3p") end
+    else
+      map = function(n) return n[m] end
+    end
+  elseif type(m) == "nil" then
+    self.asthma_backtrack = nil
+    error("tracker.backtrack: error with backtracking "..affliction..", map is nil! Why?")
+    map = m
+  end
+  tracker_debug:echo("\nBacktracking "..affliction.."...")
+  -- you need to reset all the afflictions that share a cure w/ affliction, then
+  -- lose the affliction.
+  -- if reg, then run tracker:cure on the map, and then gain the affliction afterward 
+  reg = reg or false
+  local t = self:get_afflictions(map)
+  local a = self.afflictions
+  local diff
+  if #t &gt; 0 then
+    diff = 1/#t
+  else
+    diff = 0
+  end
+  -- Reset all the affs according to what they should have been pre-assumed-cure
+  for _, aff in ipairs(t) do
+    a[aff].confidence = a[aff].confidence + diff
+    tracker_debug:echo("\n"..aff.." "..a[aff].confidence)
+  end
+  
+  -- lose the aff.
+  a[affliction]:lose()
+  
+  -- then, if we regain it...
+  if reg then
+    self:cure(map)
+    a[affliction]:get()
+  end
+  
+end
+
+function tracker:get_affliction_confidence(afflictions)
+  local t = 0
+  local a = self.afflictions
+  for _, v in ipairs(afflictions) do
+    if a[v] then t = t + a[v].confidence end
+  end
+  return t
+end
+
+function tracker:freeze(n)
+  self.frozen = self.frozen + n
+  if self.frozen &gt; 3 then self.frozen = 3 end
+  if self.frozen &lt; 0 then self.frozen = 0 end
+end</script>
+			<eventHandlerList />
+		</Script>
+	</ScriptPackage>
+</MudletPackage>

@@ -1,0 +1,14 @@
+[
+    {
+        "name": "fighter",
+        "isActive": "yes"
+    },
+    {
+        "name": "psion",
+        "isActive": "yes"
+    },
+    {
+        "name": "alchemist",
+        "isActive": "yes"
+    }
+]
