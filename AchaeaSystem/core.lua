@@ -7,6 +7,7 @@ Designed for full modularity using Mudlet packages.
 AchaeaSystem = AchaeaSystem or {}
 ci = AchaeaSystem
 AchaeaSystem.modules = AchaeaSystem.modules or {}
+require("AchaeaSystem.core.debug_guard")
 
 --[[
 Event utilities
